@@ -56,7 +56,7 @@ namespace TellDontAskKata.Tests.UseCase
                 OrderId = 1
             };
 
-            Action actionToTest = () => _useCase.Run(request);
+            var actionToTest = () => _useCase.Run(request);
 
             Assert.Throws<OrderCannotBeShippedException>(actionToTest);
             Assert.Null(_orderRepository.GetSavedOrder());
@@ -78,7 +78,7 @@ namespace TellDontAskKata.Tests.UseCase
                 OrderId = 1
             };
 
-            Action actionToTest = () => _useCase.Run(request);
+            var actionToTest = () => _useCase.Run(request);
 
             Assert.Throws<OrderCannotBeShippedException>(actionToTest);
             Assert.Null(_orderRepository.GetSavedOrder());
@@ -100,7 +100,7 @@ namespace TellDontAskKata.Tests.UseCase
                 OrderId = 1
             };
 
-            Action actionToTest = () => _useCase.Run(request);
+            var actionToTest = () => _useCase.Run(request);
 
             Assert.Throws<OrderCannotBeShippedTwiceException>(actionToTest);
             Assert.Null(_orderRepository.GetSavedOrder());

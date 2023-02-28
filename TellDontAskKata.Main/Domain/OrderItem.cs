@@ -2,9 +2,9 @@
 {
     public class OrderItem
     {
-        public Product Product { get; set; }
-        public int Quantity { get; set; }
-        public decimal TaxedAmount { get; set; }
-        public decimal Tax { get; set; }
+        public Product Product { get; init; }
+        public int Quantity { get; init; }
+        public decimal TaxedAmount { get; init; }
+        public decimal Tax { get; init; }
     }
 }

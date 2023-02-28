@@ -2,8 +2,8 @@
 {
     public class Product
     {
-        public string Name { get; set; }
-        public decimal Price { get; set; }
-        public Category Category { get; set; }
+        public string Name { get; init; }
+        public decimal Price { get; init; }
+        public Category Category { get; init; }
     }
 }

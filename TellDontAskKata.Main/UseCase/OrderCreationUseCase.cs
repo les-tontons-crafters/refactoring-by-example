@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using TellDontAskKata.Main.Domain;
 using TellDontAskKata.Main.Repository;
+using static TellDontAskKata.Main.Domain.OrderStatus;
 
 namespace TellDontAskKata.Main.UseCase
 {
@@ -17,19 +18,20 @@ namespace TellDontAskKata.Main.UseCase
             _productCatalog = productCatalog;
         }
 
-        public void Run(SellItemsRequest request)
+        public void Run(string clientId, Dictionary<string, int> items)
         {
             var order = new Order
             {
-                Status = OrderStatus.Created,
+                Status = Created,
                 Items = new List<OrderItem>(),
                 Currency = "EUR",
                 Total = 0m,
                 Tax = 0m
             };
 
-            foreach(var itemRequest in request.Requests){
-                var product = _productCatalog.GetByName(itemRequest.ProductName);
+            foreach (var itemRequest in items)
+            {
+                var product = _productCatalog.GetByName(itemRequest.Key);
 
                 if (product == null)
                 {
@@ -39,13 +41,13 @@ namespace TellDontAskKata.Main.UseCase
                 {
                     var unitaryTax = Round((product.Price / 100m) * product.Category.TaxPercentage);
                     var unitaryTaxedAmount = Round(product.Price + unitaryTax);
-                    var taxedAmount = Round(unitaryTaxedAmount * itemRequest.Quantity);
-                    var taxAmount = Round(unitaryTax * itemRequest.Quantity);
+                    var taxedAmount = Round(unitaryTaxedAmount * itemRequest.Value);
+                    var taxAmount = Round(unitaryTax * itemRequest.Value);
 
                     var orderItem = new OrderItem
                     {
                         Product = product,
-                        Quantity = itemRequest.Quantity,
+                        Quantity = itemRequest.Value,
                         Tax = taxAmount,
                         TaxedAmount = taxedAmount
                     };

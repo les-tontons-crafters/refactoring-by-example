@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using TellDontAskKata.Main.Domain;
 using TellDontAskKata.Main.Repository;
 using TellDontAskKata.Main.UseCase;
 using TellDontAskKata.Tests.Doubles;
 using Xunit;
+using static Xunit.Assert;
 
 namespace TellDontAskKata.Tests.UseCase
 {
@@ -16,26 +16,28 @@ namespace TellDontAskKata.Tests.UseCase
 
         public OrderCreationUseCaseTest()
         {
-            var food = new Category { 
+            var food = new Category
+            {
                 Name = "food",
                 TaxPercentage = 10m
             };
 
-            _productCatalog = new InMemoryProductCatalog(new List<Product>
-            {
-                new Product
+            _productCatalog = new InMemoryProductCatalog(
+                new List<Product>
                 {
-                    Name = "salad",
-                    Price = 3.56m,
-                    Category = food
-                },
-                new Product
-                {
-                    Name = "tomato",
-                    Price = 4.65m,
-                    Category = food
-                }
-            });
+                    new()
+                    {
+                        Name = "salad",
+                        Price = 3.56m,
+                        Category = food
+                    },
+                    new()
+                    {
+                        Name = "tomato",
+                        Price = 4.65m,
+                        Category = food
+                    }
+                });
 
             _orderRepository = new TestOrderRepository();
 
@@ -46,59 +48,43 @@ namespace TellDontAskKata.Tests.UseCase
         [Fact]
         public void SellMultipleItems()
         {
-            var saladRequest = new SellItemRequest
+            var items = new Dictionary<string, int>()
             {
-                ProductName = "salad",
-                Quantity = 2
+                {"salad", 2}, {"tomato", 3}
             };
 
-            var tomatoRequest = new SellItemRequest
-            {
-                ProductName = "tomato",
-                Quantity = 3
-            };
+            _useCase.Run("john doe", items);
 
-            var request = new SellItemsRequest
-            {
-                Requests = new List<SellItemRequest> { saladRequest, tomatoRequest }
-            };
-
-            _useCase.Run(request);
-
-            Order insertedOrder = _orderRepository.GetSavedOrder();
-            Assert.Equal(OrderStatus.Created, insertedOrder.Status);
-            Assert.Equal(23.20m, insertedOrder.Total);
-            Assert.Equal(2.13m, insertedOrder.Tax);
-            Assert.Equal("EUR", insertedOrder.Currency);
-            Assert.Equal(2, insertedOrder.Items.Count);
-            Assert.Equal("salad", insertedOrder.Items[0].Product.Name);
-            Assert.Equal(3.56m, insertedOrder.Items[0].Product.Price);
-            Assert.Equal(2, insertedOrder.Items[0].Quantity);
-            Assert.Equal(7.84m, insertedOrder.Items[0].TaxedAmount);
-            Assert.Equal(0.72m, insertedOrder.Items[0].Tax);
-            Assert.Equal("tomato", insertedOrder.Items[1].Product.Name);
-            Assert.Equal(4.65m, insertedOrder.Items[1].Product.Price);
-            Assert.Equal(3, insertedOrder.Items[1].Quantity);
-            Assert.Equal(15.36m, insertedOrder.Items[1].TaxedAmount);
-            Assert.Equal(1.41m, insertedOrder.Items[1].Tax);
+            var insertedOrder = _orderRepository.GetSavedOrder();
+            Equal(OrderStatus.Created, insertedOrder.Status);
+            Equal(23.20m, insertedOrder.Total);
+            Equal(2.13m, insertedOrder.Tax);
+            Equal("EUR", insertedOrder.Currency);
+            Equal(2, insertedOrder.Items.Count);
+            Equal("salad", insertedOrder.Items[0].Product.Name);
+            Equal(3.56m, insertedOrder.Items[0].Product.Price);
+            Equal(2, insertedOrder.Items[0].Quantity);
+            Equal(7.84m, insertedOrder.Items[0].TaxedAmount);
+            Equal(0.72m, insertedOrder.Items[0].Tax);
+            Equal("tomato", insertedOrder.Items[1].Product.Name);
+            Equal(4.65m, insertedOrder.Items[1].Product.Price);
+            Equal(3, insertedOrder.Items[1].Quantity);
+            Equal(15.36m, insertedOrder.Items[1].TaxedAmount);
+            Equal(1.41m, insertedOrder.Items[1].Tax);
         }
 
         [Fact]
         public void UnknownProduct()
         {
-            var request = new SellItemsRequest
+            var items = new Dictionary<string, int>()
             {
-                Requests = new List<SellItemRequest> { 
-                    new SellItemRequest { ProductName = "unknown product"}
-                }
+                {"unknown product", 0}
             };
 
-            Action actionToTest = () => _useCase.Run(request);
 
-            Assert.Throws<UnknownProductException>(actionToTest);
+            void actionToTest() => _useCase.Run("john doe", items);
+
+            Throws<UnknownProductException>(actionToTest);
         }
-
-
-
     }
 }
