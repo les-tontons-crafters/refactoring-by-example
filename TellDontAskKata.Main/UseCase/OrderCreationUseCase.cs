@@ -18,7 +18,7 @@ namespace TellDontAskKata.Main.UseCase
             _productCatalog = productCatalog;
         }
 
-        public void Run(string clientId, Dictionary<string, int> items)
+        public void Run(Dictionary<string, int> items)
         {
             var order = new Order
             {

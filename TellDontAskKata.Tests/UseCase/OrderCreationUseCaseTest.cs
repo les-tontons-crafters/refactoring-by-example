@@ -53,7 +53,7 @@ namespace TellDontAskKata.Tests.UseCase
                 {"salad", 2}, {"tomato", 3}
             };
 
-            _useCase.Run("john doe", items);
+            _useCase.Run(items);
 
             var insertedOrder = _orderRepository.GetSavedOrder();
             Equal(OrderStatus.Created, insertedOrder.Status);
@@ -82,7 +82,7 @@ namespace TellDontAskKata.Tests.UseCase
             };
 
 
-            void actionToTest() => _useCase.Run("john doe", items);
+            void actionToTest() => _useCase.Run(items);
 
             Throws<UnknownProductException>(actionToTest);
         }
