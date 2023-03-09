@@ -37,24 +37,22 @@ namespace TellDontAskKata.Main.UseCase
                 {
                     throw new UnknownProductException();
                 }
-                else
-                {
-                    var unitaryTax = Round((product.Price / 100m) * product.Category.TaxPercentage);
-                    var unitaryTaxedAmount = Round(product.Price + unitaryTax);
-                    var taxedAmount = Round(unitaryTaxedAmount * itemRequest.Value);
-                    var taxAmount = Round(unitaryTax * itemRequest.Value);
 
-                    var orderItem = new OrderItem
-                    {
-                        Product = product,
-                        Quantity = itemRequest.Value,
-                        Tax = taxAmount,
-                        TaxedAmount = taxedAmount
-                    };
-                    order.Items.Add(orderItem);
-                    order.Total += taxedAmount;
-                    order.Tax += taxAmount;
-                }
+                var unitaryTax = Round((product.Price / 100m) * product.Category.TaxPercentage);
+                var unitaryTaxedAmount = Round(product.Price + unitaryTax);
+                var taxedAmount = Round(unitaryTaxedAmount * itemRequest.Value);
+                var taxAmount = Round(unitaryTax * itemRequest.Value);
+
+                var orderItem = new OrderItem
+                {
+                    Product = product,
+                    Quantity = itemRequest.Value,
+                    Tax = taxAmount,
+                    TaxedAmount = taxedAmount
+                };
+                order.Items.Add(orderItem);
+                order.Total += taxedAmount;
+                order.Tax += taxAmount;
             }
 
             _orderRepository.Save(order);
