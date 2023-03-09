@@ -18,7 +18,7 @@ namespace TellDontAskKata.Main.UseCase
             _productCatalog = productCatalog;
         }
 
-        public void Run(Dictionary<string, int> items)
+        public void Run(HashSet<CreateOrderItem> items)
         {
             var order = new Order
             {
@@ -31,7 +31,7 @@ namespace TellDontAskKata.Main.UseCase
 
             foreach (var itemRequest in items)
             {
-                var product = _productCatalog.GetByName(itemRequest.Key);
+                var product = _productCatalog.GetByName(itemRequest.Name);
 
                 if (product == null)
                 {
@@ -40,13 +40,13 @@ namespace TellDontAskKata.Main.UseCase
 
                 var unitaryTax = Round((product.Price / 100m) * product.Category.TaxPercentage);
                 var unitaryTaxedAmount = Round(product.Price + unitaryTax);
-                var taxedAmount = Round(unitaryTaxedAmount * itemRequest.Value);
-                var taxAmount = Round(unitaryTax * itemRequest.Value);
+                var taxedAmount = Round(unitaryTaxedAmount * itemRequest.Quantity);
+                var taxAmount = Round(unitaryTax * itemRequest.Quantity);
 
                 var orderItem = new OrderItem
                 {
                     Product = product,
-                    Quantity = itemRequest.Value,
+                    Quantity = itemRequest.Quantity,
                     Tax = taxAmount,
                     TaxedAmount = taxedAmount
                 };
@@ -63,4 +63,11 @@ namespace TellDontAskKata.Main.UseCase
             return decimal.Round(amount, 2, System.MidpointRounding.ToPositiveInfinity);
         }
     }
+
+    /// <summary>
+    /// Represents an item dedicated to order creation.
+    /// </summary>
+    /// <param name="Name">The name of the item.</param>
+    /// <param name="Quantity">The quantity of the item.</param>
+    public record CreateOrderItem(string Name, int Quantity);
 }

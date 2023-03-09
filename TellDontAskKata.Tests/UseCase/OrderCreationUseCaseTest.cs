@@ -48,9 +48,10 @@ namespace TellDontAskKata.Tests.UseCase
         [Fact]
         public void SellMultipleItems()
         {
-            var items = new Dictionary<string, int>()
+            var items = new HashSet<CreateOrderItem>()
             {
-                {"salad", 2}, {"tomato", 3}
+                new CreateOrderItem("salad", 2),
+                new CreateOrderItem("tomato", 3),
             };
 
             _useCase.Run(items);
@@ -76,9 +77,9 @@ namespace TellDontAskKata.Tests.UseCase
         [Fact]
         public void UnknownProduct()
         {
-            var items = new Dictionary<string, int>()
+            var items = new HashSet<CreateOrderItem>()
             {
-                {"unknown product", 0}
+                new CreateOrderItem("unknown product", 0),
             };
 
 
