@@ -19,14 +19,8 @@ namespace TellDontAskKata.Main.UseCase
             _productCatalog = productCatalog;
         }
 
-        public void Run(IEnumerable<CreateOrderItem> items)
-            => _orderRepository.Save
-            (
-                Order.New(_productCatalog, items)
-            );
-
-        public Either<UnknownProductException, Order> RunWithEither(IEnumerable<CreateOrderItem> items)
-            => Order.NewWithEither(_productCatalog, items)
+        public Either<UnknownProductException, Order> Run(IEnumerable<CreateOrderItem> items)
+            => Order.New(_productCatalog, items)
                 .Map(order => _orderRepository.Save(order));
     }
 }

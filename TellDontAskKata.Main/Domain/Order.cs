@@ -3,8 +3,8 @@ using System.Linq;
 using LanguageExt;
 using TellDontAskKata.Main.Commands;
 using TellDontAskKata.Main.Repository;
-using static TellDontAskKata.Main.Domain.OrderItem;
 using static LanguageExt.Prelude;
+using static TellDontAskKata.Main.Domain.OrderItem;
 
 namespace TellDontAskKata.Main.Domain
 {
@@ -28,12 +28,6 @@ namespace TellDontAskKata.Main.Domain
             Tax = 0m;
         }
 
-        // Does it make sense to be able to create an empty Order?
-        public static Order New(IProductCatalog productCatalog, IEnumerable<CreateOrderItem> items) =>
-            items
-                .Select(createOrderItem => NewOrderItem(productCatalog, createOrderItem))
-                .Aggregate(new Order(), (order, item) => order.AddItem(item));
-
         private Order AddItem(OrderItem orderItem)
         {
             _items.Add(orderItem);
@@ -43,12 +37,13 @@ namespace TellDontAskKata.Main.Domain
             return this;
         }
 
-        public static Either<UnknownProductException, Order> NewWithEither(
+        // Does it make sense to be able to create an empty Order?
+        public static Either<UnknownProductException, Order> New(
             IProductCatalog productCatalog,
             IEnumerable<CreateOrderItem> items)
         {
             var orderItems =
-                items.Map(createOrderItem => NewOrderItemWithEither(productCatalog, createOrderItem)).ToArray();
+                items.Map(createOrderItem => NewOrderItem(productCatalog, createOrderItem)).ToArray();
 
             return ContainsFailure(orderItems)
                 ? ToFailure()
