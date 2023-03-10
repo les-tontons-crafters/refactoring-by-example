@@ -27,13 +27,14 @@ namespace TellDontAskKata.Main.Domain
         }
 
         // Does it make sense to be able to create an empty Order?
-        public static Order New(IProductCatalog productCatalog, HashSet<CreateOrderItem> items)
+        public static Order New(IProductCatalog productCatalog, IEnumerable<CreateOrderItem> items)
         {
             var order = new Order();
 
             items
+                .Select(createOrderItem => NewOrderItem(productCatalog, createOrderItem))
                 .ToList()
-                .ForEach(item => order.AddItem(NewOrderItem(productCatalog, item)));
+                .ForEach(item => order.AddItem(item));
 
             return order;
         }
