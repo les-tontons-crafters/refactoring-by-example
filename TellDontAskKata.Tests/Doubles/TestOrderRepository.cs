@@ -8,11 +8,12 @@ namespace TellDontAskKata.Tests.Doubles
     public class TestOrderRepository : IOrderRepository
     {
         private Order _insertedOrder;
-        private IList<Order> _orders = new List<Order>();
+        private readonly IList<Order> _orders = new List<Order>();
 
-        public void Save(Order order)
+        public Order Save(Order order)
         {
             _insertedOrder = order;
+            return _insertedOrder;
         }
 
         public Order GetById(int orderId)

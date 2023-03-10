@@ -49,7 +49,7 @@ namespace TellDontAskKata.Tests.UseCase
         [Fact]
         public void SellMultipleItemsWithMonad()
         {
-            var items = new System.Collections.Generic.HashSet<CreateOrderItem>()
+            var items = new HashSet<CreateOrderItem>()
             {
                 new("salad", 2),
                 new("tomato", 3),

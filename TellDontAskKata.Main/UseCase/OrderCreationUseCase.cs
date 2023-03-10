@@ -3,7 +3,6 @@ using LanguageExt;
 using TellDontAskKata.Main.Commands;
 using TellDontAskKata.Main.Domain;
 using TellDontAskKata.Main.Repository;
-using static LanguageExt.Prelude;
 
 namespace TellDontAskKata.Main.UseCase
 {
@@ -27,11 +26,7 @@ namespace TellDontAskKata.Main.UseCase
             );
 
         public Either<UnknownProductException, Order> RunWithEither(IEnumerable<CreateOrderItem> items)
-        {
-            var order = Order.New(_productCatalog, items);
-            _orderRepository.Save(order);
-
-            return Right(order);
-        }
+            => Order.NewWithEither(_productCatalog, items)
+                .Map(order => _orderRepository.Save(order));
     }
 }

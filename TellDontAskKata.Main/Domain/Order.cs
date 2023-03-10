@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using LanguageExt;
 using TellDontAskKata.Main.Commands;
 using TellDontAskKata.Main.Repository;
 using static TellDontAskKata.Main.Domain.OrderItem;
@@ -39,6 +40,20 @@ namespace TellDontAskKata.Main.Domain
             Tax += orderItem.Tax;
 
             return this;
+        }
+
+        public static Either<UnknownProductException, Order> NewWithEither(
+            IProductCatalog productCatalog,
+            IEnumerable<CreateOrderItem> items)
+        {
+            try
+            {
+                return New(productCatalog, items);
+            }
+            catch (UnknownProductException e)
+            {
+                return e;
+            }
         }
     }
 }
