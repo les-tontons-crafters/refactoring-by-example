@@ -1,4 +1,6 @@
 ﻿using TellDontAskKata.Main.Commands;
+using TellDontAskKata.Main.Repository;
+using TellDontAskKata.Main.UseCase;
 
 namespace TellDontAskKata.Main.Domain
 {
@@ -18,8 +20,16 @@ namespace TellDontAskKata.Main.Domain
             TaxedAmount = (product.UnitaryTaxedAmount() * quantity).Round();
         }
 
+        public static OrderItem NewOrderItem(IProductCatalog productCatalog, CreateOrderItem itemRequest)
+        {
+            var product = productCatalog.GetByName(itemRequest.Name);
 
-        public static OrderItem New(CreateOrderItem itemRequest, Product product)
-            => new(product, itemRequest.Quantity);
+            if (product == null)
+            {
+                throw new UnknownProductException();
+            }
+
+            return new OrderItem(product, itemRequest.Quantity);
+        }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using TellDontAskKata.Main.Commands;
 using TellDontAskKata.Main.Repository;
-using TellDontAskKata.Main.UseCase;
+using static TellDontAskKata.Main.Domain.OrderItem;
 
 namespace TellDontAskKata.Main.Domain
 {
@@ -15,6 +15,7 @@ namespace TellDontAskKata.Main.Domain
         public OrderStatus Status { get; set; }
         public int Id { get; init; }
 
+        // Should be private
         public Order()
         {
             Status = OrderStatus.Created;
@@ -24,28 +25,17 @@ namespace TellDontAskKata.Main.Domain
             Tax = 0m;
         }
 
+        // Does it make sense to be able to create an empty Order?
         public static Order New(IProductCatalog productCatalog, HashSet<CreateOrderItem> items)
         {
             var order = new Order();
 
             foreach (var itemRequest in items)
             {
-                order.AddItem(ToOrderItem(productCatalog, itemRequest));
+                order.AddItem(NewOrderItem(productCatalog, itemRequest));
             }
 
             return order;
-        }
-
-        private static OrderItem ToOrderItem(IProductCatalog productCatalog, CreateOrderItem itemRequest)
-        {
-            var product = productCatalog.GetByName(itemRequest.Name);
-
-            if (product == null)
-            {
-                throw new UnknownProductException();
-            }
-
-            return OrderItem.New(itemRequest, product);
         }
 
         private void AddItem(OrderItem orderItem)
