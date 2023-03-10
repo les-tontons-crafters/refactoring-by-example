@@ -27,6 +27,11 @@ namespace TellDontAskKata.Main.UseCase
             );
 
         public Either<UnknownProductException, Order> RunWithEither(IEnumerable<CreateOrderItem> items)
-            => Left(new UnknownProductException());
+        {
+            var order = Order.New(_productCatalog, items);
+            _orderRepository.Save(order);
+
+            return Right(order);
+        }
     }
 }
