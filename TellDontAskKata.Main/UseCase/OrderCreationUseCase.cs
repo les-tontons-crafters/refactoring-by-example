@@ -23,31 +23,38 @@ namespace TellDontAskKata.Main.UseCase
 
             foreach (var itemRequest in items)
             {
-                var product = _productCatalog.GetByName(itemRequest.Name);
+                var orderItem = ToOrderItem(itemRequest);
 
-                if (product == null)
-                {
-                    throw new UnknownProductException();
-                }
-
-                var unitaryTax = Round((product.Price / 100m) * product.Category.TaxPercentage);
-                var unitaryTaxedAmount = Round(product.Price + unitaryTax);
-                var taxedAmount = Round(unitaryTaxedAmount * itemRequest.Quantity);
-                var taxAmount = Round(unitaryTax * itemRequest.Quantity);
-
-                var orderItem = new OrderItem
-                {
-                    Product = product,
-                    Quantity = itemRequest.Quantity,
-                    Tax = taxAmount,
-                    TaxedAmount = taxedAmount
-                };
                 order.Items.Add(orderItem);
-                order.Total += taxedAmount;
-                order.Tax += taxAmount;
+                order.Total += orderItem.TaxedAmount;
+                order.Tax += orderItem.Tax;
             }
 
             _orderRepository.Save(order);
+        }
+
+        private OrderItem ToOrderItem(CreateOrderItem itemRequest)
+        {
+            var product = _productCatalog.GetByName(itemRequest.Name);
+
+            if (product == null)
+            {
+                throw new UnknownProductException();
+            }
+
+            var unitaryTax = Round((product.Price / 100m) * product.Category.TaxPercentage);
+            var unitaryTaxedAmount = Round(product.Price + unitaryTax);
+            var taxedAmount = Round(unitaryTaxedAmount * itemRequest.Quantity);
+            var taxAmount = Round(unitaryTax * itemRequest.Quantity);
+
+            var orderItem = new OrderItem
+            {
+                Product = product,
+                Quantity = itemRequest.Quantity,
+                Tax = taxAmount,
+                TaxedAmount = taxedAmount
+            };
+            return orderItem;
         }
 
         private static decimal Round(decimal amount)
