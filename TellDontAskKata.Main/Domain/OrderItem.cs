@@ -21,14 +21,14 @@ namespace TellDontAskKata.Main.Domain
             TaxedAmount = (product.UnitaryTaxedAmount() * quantity).Round();
         }
 
-        public static Either<UnknownProductException, OrderItem> NewOrderItem(
+        public static Either<UnknownProduct, OrderItem> NewOrderItem(
             IProductCatalog productCatalog,
             CreateOrderItem itemRequest)
         {
             var product = productCatalog.GetByName(itemRequest.Name);
 
             return product == null
-                ? Left(new UnknownProductException())
+                ? Left(new UnknownProduct(itemRequest.Name))
                 : new OrderItem(product, itemRequest.Quantity);
         }
     }

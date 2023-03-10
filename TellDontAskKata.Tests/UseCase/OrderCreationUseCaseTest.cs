@@ -91,7 +91,11 @@ namespace TellDontAskKata.Tests.UseCase
             _useCase
                 .Run(items)
                 .Should()
-                .BeLeft(error => error.Should().BeOfType<UnknownProductException>());
+                .BeLeft(unknownProducts =>
+                {
+                    unknownProducts.Should().BeOfType<UnknownProducts>();
+                    unknownProducts.Message.Should().Be("Missing product(s): unknown product");
+                });
         }
     }
 }

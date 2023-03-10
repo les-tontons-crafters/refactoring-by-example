@@ -38,7 +38,7 @@ namespace TellDontAskKata.Main.Domain
         }
 
         // Does it make sense to be able to create an empty Order?
-        public static Either<UnknownProductException, Order> New(
+        public static Either<UnknownProducts, Order> New(
             IProductCatalog productCatalog,
             IEnumerable<CreateOrderItem> items)
         {
@@ -46,18 +46,17 @@ namespace TellDontAskKata.Main.Domain
                 items.Map(createOrderItem => NewOrderItem(productCatalog, createOrderItem)).ToArray();
 
             return ContainsFailure(orderItems)
-                ? ToFailure()
-                : ToSuccess(orderItems);
+                ? ToFailure(orderItems.Lefts())
+                : ToSuccess(orderItems.Rights());
         }
 
-        private static bool ContainsFailure(Either<UnknownProductException, OrderItem>[] orderItems) =>
+        private static bool ContainsFailure(Either<UnknownProduct, OrderItem>[] orderItems) =>
             orderItems.Lefts().Any();
 
-        private static EitherLeft<UnknownProductException> ToFailure() => Left(new UnknownProductException());
+        private static EitherLeft<UnknownProducts> ToFailure(IEnumerable<UnknownProduct> unknownProducts) =>
+            Left(new UnknownProducts(unknownProducts));
 
-        private static Order ToSuccess(Either<UnknownProductException, OrderItem>[] orderItems)
-            => orderItems
-                .Rights()
-                .Fold(new Order(), (order, item) => order.AddItem(item));
+        private static Order ToSuccess(IEnumerable<OrderItem> orderItems)
+            => orderItems.Fold(new Order(), (order, item) => order.AddItem(item));
     }
 }
