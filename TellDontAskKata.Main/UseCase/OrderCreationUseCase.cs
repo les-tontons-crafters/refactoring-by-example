@@ -25,11 +25,7 @@ namespace TellDontAskKata.Main.UseCase
 
             foreach (var itemRequest in items)
             {
-                var orderItem = ToOrderItem(itemRequest);
-
-                order.Items.Add(orderItem);
-                order.Total += orderItem.TaxedAmount;
-                order.Tax += orderItem.Tax;
+                order.AddItem(ToOrderItem(itemRequest));
             }
 
             _orderRepository.Save(order);
