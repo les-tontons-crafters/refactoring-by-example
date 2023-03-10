@@ -4,6 +4,7 @@ using LanguageExt;
 using TellDontAskKata.Main.Commands;
 using TellDontAskKata.Main.Repository;
 using static TellDontAskKata.Main.Domain.OrderItem;
+using static LanguageExt.Prelude;
 
 namespace TellDontAskKata.Main.Domain
 {
@@ -46,14 +47,12 @@ namespace TellDontAskKata.Main.Domain
             IProductCatalog productCatalog,
             IEnumerable<CreateOrderItem> items)
         {
-            try
-            {
-                return New(productCatalog, items);
-            }
-            catch (UnknownProductException e)
-            {
-                return e;
-            }
+            var orderItems =
+                items.Map(createOrderItem => NewOrderItemWithEither(productCatalog, createOrderItem)).ToArray();
+
+            return orderItems.Lefts().Any()
+                ? Left(new UnknownProductException())
+                : orderItems.Rights().Fold(new Order(), (order, item) => order.AddItem(item));
         }
     }
 }

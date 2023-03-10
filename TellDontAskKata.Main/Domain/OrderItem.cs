@@ -1,6 +1,7 @@
-﻿using TellDontAskKata.Main.Commands;
+﻿using LanguageExt;
+using TellDontAskKata.Main.Commands;
 using TellDontAskKata.Main.Repository;
-using TellDontAskKata.Main.UseCase;
+using static LanguageExt.Prelude;
 
 namespace TellDontAskKata.Main.Domain
 {
@@ -30,6 +31,17 @@ namespace TellDontAskKata.Main.Domain
             }
 
             return new OrderItem(product, itemRequest.Quantity);
+        }
+
+        public static Either<UnknownProductException, OrderItem> NewOrderItemWithEither(
+            IProductCatalog productCatalog,
+            CreateOrderItem itemRequest)
+        {
+            var product = productCatalog.GetByName(itemRequest.Name);
+
+            return product == null
+                ? Left(new UnknownProductException())
+                : new OrderItem(product, itemRequest.Quantity);
         }
     }
 }
