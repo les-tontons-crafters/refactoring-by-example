@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using TellDontAskKata.Main.Commands;
 using TellDontAskKata.Main.Domain;
 using TellDontAskKata.Main.Repository;
 using static TellDontAskKata.Main.Domain.OrderItem;
@@ -46,11 +47,4 @@ namespace TellDontAskKata.Main.UseCase
             return New(itemRequest, product);
         }
     }
-
-    /// <summary>
-    /// Represents an item dedicated to order creation.
-    /// </summary>
-    /// <param name="Name">The name of the item.</param>
-    /// <param name="Quantity">The quantity of the item.</param>
-    public record CreateOrderItem(string Name, int Quantity);
 }

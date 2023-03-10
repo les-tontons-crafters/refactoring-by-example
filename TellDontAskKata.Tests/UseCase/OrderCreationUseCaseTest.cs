@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using TellDontAskKata.Main.Commands;
 using TellDontAskKata.Main.Domain;
 using TellDontAskKata.Main.Repository;
 using TellDontAskKata.Main.UseCase;
@@ -50,8 +51,8 @@ namespace TellDontAskKata.Tests.UseCase
         {
             var items = new HashSet<CreateOrderItem>()
             {
-                new CreateOrderItem("salad", 2),
-                new CreateOrderItem("tomato", 3),
+                new("salad", 2),
+                new("tomato", 3),
             };
 
             _useCase.Run(items);
@@ -79,7 +80,7 @@ namespace TellDontAskKata.Tests.UseCase
         {
             var items = new HashSet<CreateOrderItem>()
             {
-                new CreateOrderItem("unknown product", 0),
+                new("unknown product", 0),
             };
 
 

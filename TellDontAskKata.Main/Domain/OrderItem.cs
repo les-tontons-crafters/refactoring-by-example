@@ -1,4 +1,4 @@
-﻿using TellDontAskKata.Main.UseCase;
+﻿using TellDontAskKata.Main.Commands;
 
 namespace TellDontAskKata.Main.Domain
 {
