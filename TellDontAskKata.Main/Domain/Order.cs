@@ -10,10 +10,10 @@ namespace TellDontAskKata.Main.Domain
 {
     public class Order
     {
-        private readonly List<OrderItem> _items;
+        private Seq<OrderItem> _items;
         public decimal Total { get; private set; }
         public string Currency { get; }
-        public IReadOnlyList<OrderItem> Items => _items.ToArray();
+        public Seq<OrderItem> Items => _items;
         public decimal Tax { get; private set; }
         public OrderStatus Status { get; set; }
         public int Id { get; init; }
@@ -22,19 +22,10 @@ namespace TellDontAskKata.Main.Domain
         public Order()
         {
             Status = OrderStatus.Created;
-            _items = new List<OrderItem>();
+            _items = new Seq<OrderItem>();
             Currency = "EUR";
             Total = 0m;
             Tax = 0m;
-        }
-
-        private Order AddItem(OrderItem orderItem)
-        {
-            _items.Add(orderItem);
-            Total += orderItem.TaxedAmount;
-            Tax += orderItem.Tax;
-
-            return this;
         }
 
         // Does it make sense to be able to create an empty Order?
@@ -50,7 +41,7 @@ namespace TellDontAskKata.Main.Domain
                 : ToSuccess(orderItems.Rights());
         }
 
-        private static bool ContainsFailure(Either<UnknownProduct, OrderItem>[] orderItems) =>
+        private static bool ContainsFailure(IEnumerable<Either<UnknownProduct, OrderItem>> orderItems) =>
             orderItems.Lefts().Any();
 
         private static EitherLeft<UnknownProducts> ToFailure(IEnumerable<UnknownProduct> unknownProducts) =>
@@ -58,5 +49,14 @@ namespace TellDontAskKata.Main.Domain
 
         private static Order ToSuccess(IEnumerable<OrderItem> orderItems)
             => orderItems.Fold(new Order(), (order, item) => order.AddItem(item));
+
+        private Order AddItem(OrderItem orderItem)
+        {
+            _items = _items.Add(orderItem);
+            Total += orderItem.TaxedAmount;
+            Tax += orderItem.Tax;
+
+            return this;
+        }
     }
 }
