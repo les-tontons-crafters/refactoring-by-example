@@ -50,9 +50,19 @@ namespace TellDontAskKata.Main.Domain
             var orderItems =
                 items.Map(createOrderItem => NewOrderItemWithEither(productCatalog, createOrderItem)).ToArray();
 
-            return orderItems.Lefts().Any()
-                ? Left(new UnknownProductException())
-                : orderItems.Rights().Fold(new Order(), (order, item) => order.AddItem(item));
+            return ContainsFailure(orderItems)
+                ? ToFailure()
+                : ToSuccess(orderItems);
         }
+
+        private static bool ContainsFailure(Either<UnknownProductException, OrderItem>[] orderItems) =>
+            orderItems.Lefts().Any();
+
+        private static EitherLeft<UnknownProductException> ToFailure() => Left(new UnknownProductException());
+
+        private static Order ToSuccess(Either<UnknownProductException, OrderItem>[] orderItems)
+            => orderItems
+                .Rights()
+                .Fold(new Order(), (order, item) => order.AddItem(item));
     }
 }
