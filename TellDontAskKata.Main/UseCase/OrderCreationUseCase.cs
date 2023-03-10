@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using TellDontAskKata.Main.Domain;
 using TellDontAskKata.Main.Repository;
+using static TellDontAskKata.Main.Domain.OrderItem;
 
 namespace TellDontAskKata.Main.UseCase
 {
@@ -42,24 +43,7 @@ namespace TellDontAskKata.Main.UseCase
                 throw new UnknownProductException();
             }
 
-            var unitaryTax = Round((product.Price / 100m) * product.Category.TaxPercentage);
-            var unitaryTaxedAmount = Round(product.Price + unitaryTax);
-            var taxedAmount = Round(unitaryTaxedAmount * itemRequest.Quantity);
-            var taxAmount = Round(unitaryTax * itemRequest.Quantity);
-
-            var orderItem = new OrderItem
-            {
-                Product = product,
-                Quantity = itemRequest.Quantity,
-                Tax = taxAmount,
-                TaxedAmount = taxedAmount
-            };
-            return orderItem;
-        }
-
-        private static decimal Round(decimal amount)
-        {
-            return decimal.Round(amount, 2, System.MidpointRounding.ToPositiveInfinity);
+            return New(itemRequest, product);
         }
     }
 
