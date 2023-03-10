@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using TellDontAskKata.Main.Domain;
 using TellDontAskKata.Main.Repository;
-using static TellDontAskKata.Main.Domain.OrderStatus;
 
 namespace TellDontAskKata.Main.UseCase
 {
@@ -20,14 +19,7 @@ namespace TellDontAskKata.Main.UseCase
 
         public void Run(HashSet<CreateOrderItem> items)
         {
-            var order = new Order
-            {
-                Status = Created,
-                Items = new List<OrderItem>(),
-                Currency = "EUR",
-                Total = 0m,
-                Tax = 0m
-            };
+            var order = Order.New();
 
             foreach (var itemRequest in items)
             {
