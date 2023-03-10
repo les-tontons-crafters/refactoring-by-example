@@ -2,7 +2,6 @@
 using TellDontAskKata.Main.Commands;
 using TellDontAskKata.Main.Domain;
 using TellDontAskKata.Main.Repository;
-using static TellDontAskKata.Main.Domain.OrderItem;
 
 namespace TellDontAskKata.Main.UseCase
 {
@@ -20,27 +19,9 @@ namespace TellDontAskKata.Main.UseCase
         }
 
         public void Run(HashSet<CreateOrderItem> items)
-        {
-            var order = Order.New();
-
-            foreach (var itemRequest in items)
-            {
-                order.AddItem(ToOrderItem(itemRequest));
-            }
-
-            _orderRepository.Save(order);
-        }
-
-        private OrderItem ToOrderItem(CreateOrderItem itemRequest)
-        {
-            var product = _productCatalog.GetByName(itemRequest.Name);
-
-            if (product == null)
-            {
-                throw new UnknownProductException();
-            }
-
-            return New(itemRequest, product);
-        }
+            => _orderRepository.Save
+            (
+                Order.New(_productCatalog, items)
+            );
     }
 }
