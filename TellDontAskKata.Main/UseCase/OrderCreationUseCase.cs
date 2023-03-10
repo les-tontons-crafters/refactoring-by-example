@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
+using LanguageExt;
 using TellDontAskKata.Main.Commands;
 using TellDontAskKata.Main.Domain;
 using TellDontAskKata.Main.Repository;
+using static LanguageExt.Prelude;
 
 namespace TellDontAskKata.Main.UseCase
 {
@@ -18,10 +20,13 @@ namespace TellDontAskKata.Main.UseCase
             _productCatalog = productCatalog;
         }
 
-        public void Run(HashSet<CreateOrderItem> items)
+        public void Run(IEnumerable<CreateOrderItem> items)
             => _orderRepository.Save
             (
                 Order.New(_productCatalog, items)
             );
+
+        public Either<UnknownProductException, Order> RunWithEither(IEnumerable<CreateOrderItem> items)
+            => Left(new UnknownProductException());
     }
 }
