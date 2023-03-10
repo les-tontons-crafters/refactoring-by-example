@@ -1,5 +1,4 @@
-﻿using System;
-using TellDontAskKata.Main.UseCase;
+﻿using TellDontAskKata.Main.UseCase;
 
 namespace TellDontAskKata.Main.Domain
 {
@@ -15,17 +14,12 @@ namespace TellDontAskKata.Main.Domain
             Product = product;
             Quantity = quantity;
 
-            var unitaryTax = Round((product.Price / 100m) * product.Category.TaxPercentage);
-            var unitaryTaxedAmount = Round(product.Price + unitaryTax);
-
-            Tax = Round(unitaryTax * quantity);
-            TaxedAmount = Round(unitaryTaxedAmount * quantity);
+            Tax = (product.UnitaryTax() * quantity).Round();
+            TaxedAmount = (product.UnitaryTaxedAmount() * quantity).Round();
         }
 
 
         public static OrderItem New(CreateOrderItem itemRequest, Product product)
             => new(product, itemRequest.Quantity);
-
-        private static decimal Round(decimal amount) => decimal.Round(amount, 2, MidpointRounding.ToPositiveInfinity);
     }
 }
