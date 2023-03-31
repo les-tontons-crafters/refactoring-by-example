@@ -15,12 +15,12 @@ Everything shown will be applicable during your daily duties on existing codebas
 
 Guillaume Faas and Yoan Thirion are "Les Tontons Crafters", two passionate software crafters keen to share their knowledge and experiences with the community.
 
-## [1) Fight Primitive Obsession](https://xtrem-tdd.netlify.app/Flavours/no-primitive-types)
+### [1) Fight Primitive Obsession](https://xtrem-tdd.netlify.app/Flavours/no-primitive-types)
 - Remove unused parameter clientId (automated by IDE)
 - Remove redundant else (automated by IDE)
 - Create value object CreateOrderItem instead of <string, int> (Primitive obsession)
 
-## [2) Tell Don't Ask](https://xtrem-tdd.netlify.app/Flavours/tell-dont-ask)
+### [2) Tell Don't Ask](https://xtrem-tdd.netlify.app/Flavours/tell-dont-ask)
 - Move Order Creation to Factory Method
 - Move logic from Factory method to constructor
 - Prepare OrderItem logic refactoring by extracting logic from UseCase in a mapping method
@@ -32,12 +32,12 @@ Guillaume Faas and Yoan Thirion are "Les Tontons Crafters", two passionate softw
 - Move for loop in Order
 - Move OrderItem Factory logic
 
-## [3) No for loops](https://xtrem-tdd.netlify.app/Flavours/no-for-loops)
+### [3) No for loops](https://xtrem-tdd.netlify.app/Flavours/no-for-loops)
 - Use ForEach method from LinQ
 - Decompose LinQ for better understanding
 - Use Aggregate to simplify our code. Simplify?
 
-## [4) Avoid exceptions -> T.D.D and monad](https://xtrem-tdd.netlify.app/Flavours/monads)
+### [4) Avoid exceptions -> T.D.D and monad](https://xtrem-tdd.netlify.app/Flavours/monads)
 - Express new expectation from UseCase with a failing test
 - Make it green as fast as possible
 - Refactor: move Exception to Domain
@@ -49,4 +49,5 @@ Guillaume Faas and Yoan Thirion are "Les Tontons Crafters", two passionate softw
 - Use immutable Seq in Order
 
 ## Replay
-Replay will be available soon on Youtube.
+Replay is available here:
+[![Refactoring By Example by "Les Tontons Crafters"](img/video.png)](https://youtu.be/fwuHdIMrXB0)
