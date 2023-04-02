@@ -51,3 +51,6 @@ Guillaume Faas and Yoan Thirion are "Les Tontons Crafters", two passionate softw
 ## Replay
 Replay is available here:
 [![Refactoring By Example by "Les Tontons Crafters"](img/video.png)](https://youtu.be/fwuHdIMrXB0)
+
+## Original kata
+Full kata's explanations are available [here](https://github.com/ythirion/scala-kata-logs/blob/main/OrderShippingKata/README.md).
