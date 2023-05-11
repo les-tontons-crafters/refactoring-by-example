@@ -2,7 +2,7 @@
 Repository used during [Promyze](https://www.promyze.com/) Webinar: "Refactoring by Example".
 The step-by-step guide is available through `git log`.
 
-![Promyze Webinar](img/promyze.png)
+![Refactoring by Example cover](img/refactoring-by-example.webp)
 
 ## Pitch
 In our industry, we spend time investigating problems that people have already solved in the past. We've been there, too; finding reliable information is indeed challenging.
