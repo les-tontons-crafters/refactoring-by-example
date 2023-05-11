@@ -1,4 +1,4 @@
-# Order Shipping Kata
+# Refactoring By Example
 Repository used during [Promyze](https://www.promyze.com/) Webinar: "Refactoring by Example".
 The step-by-step guide is available through `git log`.
 
