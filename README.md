@@ -48,6 +48,10 @@ Guillaume Faas and Yoan Thirion are "Les Tontons Crafters", two passionate softw
 - No more exceptions -> only DomainError
 - Use immutable Seq in Order
 
+## Promyze CLI
+We can now use [Promyze CLI](https://docs.promyze.com/detect-practices-in-your-code/promyze-cli) to scan our project.
+![Promyze CLI - Tell Don't Ask](img/promyze-cli-result.webp)
+
 ## Replay
 Replay is available here:
 [![Refactoring By Example by "Les Tontons Crafters"](img/video.png)](https://youtu.be/fwuHdIMrXB0)
