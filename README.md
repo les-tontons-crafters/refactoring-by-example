@@ -5,15 +5,17 @@ The step-by-step guide is available through `git log`.
 ![Refactoring by Example cover](img/refactoring-by-example.webp)
 
 ## Pitch
-In our industry, we spend time investigating problems that people have already solved in the past. We've been there, too; finding reliable information is indeed challenging.
+In our industry, we spend time investigating problems that people have already solved in the past. 
 
-During this webinar, we propose showing you practices and insights through a Code Review. We'll work in an OOP language on a codebase you may be familiar with.
+We've been there, too; finding reliable information is indeed challenging.
+
+During this webinar, we propose showing you practices and insights through a `Code Review`. We'll work in an OOP language on a codebase you may be familiar with.
 
 The webinar will be a live-coding session where we'll refactor code to improve its readability and maintainability. We will rely on a knowledge base and Promyze to identify areas for improvement.
 
 Everything shown will be applicable during your daily duties on existing codebases.
 
-Guillaume Faas and Yoan Thirion are "Les Tontons Crafters", two passionate software crafters keen to share their knowledge and experiences with the community.
+[Guillaume Faas](https://www.linkedin.com/in/guillaumefaas/) and [Yoan Thirion](https://www.linkedin.com/in/yoanthirion/) are "[Les Tontons Crafters](https://github.com/les-tontons-crafters)", two passionate software crafters keen to share their knowledge and experiences with the community.
 
 ### [1) Fight Primitive Obsession](https://xtrem-tdd.netlify.app/Flavours/Design/no-primitive-types)
 - Remove unused parameter `clientId` (automated by IDE)
