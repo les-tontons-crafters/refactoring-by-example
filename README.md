@@ -15,37 +15,37 @@ Everything shown will be applicable during your daily duties on existing codebas
 
 Guillaume Faas and Yoan Thirion are "Les Tontons Crafters", two passionate software crafters keen to share their knowledge and experiences with the community.
 
-### [1) Fight Primitive Obsession](https://xtrem-tdd.netlify.app/Flavours/no-primitive-types)
-- Remove unused parameter clientId (automated by IDE)
+### [1) Fight Primitive Obsession](https://xtrem-tdd.netlify.app/Flavours/Design/no-primitive-types)
+- Remove unused parameter `clientId` (automated by IDE)
 - Remove redundant else (automated by IDE)
-- Create value object CreateOrderItem instead of <string, int> (Primitive obsession)
+- Create value object `CreateOrderItem` instead of <string, int> (Primitive obsession)
 
-### [2) Tell Don't Ask](https://xtrem-tdd.netlify.app/Flavours/tell-dont-ask)
-- Move Order Creation to Factory Method
-- Move logic from Factory method to constructor
-- Prepare OrderItem logic refactoring by extracting logic from UseCase in a mapping method
-- Extract OrderItem Factory method
-- Move factory logic to OrderItem constructor
-- Move Product calculation to Product
-- Move CreateOrderItem to Commands NS
-- Move AddItem logic to Order
+### [2) Tell Don't Ask](https://xtrem-tdd.netlify.app/Flavours/Design/tell-dont-ask)
+- Move `Order Creation` to Factory Method
+- Move logic from `Factory` method to constructor
+- Prepare `OrderItem` logic refactoring by extracting logic from `UseCase` in a mapping method
+- Extract `OrderItem` Factory method
+- Move factory logic to `OrderItem` constructor
+- Move `Product` calculation to Product
+- Move `CreateOrderItem` to Commands Namespace
+- Move `AddItem` logic to Order
 - Move for loop in Order
-- Move OrderItem Factory logic
+- Move `OrderItem` Factory logic
 
-### [3) No for loops](https://xtrem-tdd.netlify.app/Flavours/no-for-loops)
-- Use ForEach method from LinQ
+### [3) No for loops](https://xtrem-tdd.netlify.app/Flavours/Design/no-for-loops)
+- Use `ForEach` method from `LinQ`
 - Decompose LinQ for better understanding
-- Use Aggregate to simplify our code. Simplify?
+- Use `Aggregate` to simplify our code. Simplify?
 
-### [4) Avoid exceptions -> T.D.D and monad](https://xtrem-tdd.netlify.app/Flavours/monads)
-- Express new expectation from UseCase with a failing test
+### [4) Avoid exceptions -> T.D.D and monad](https://xtrem-tdd.netlify.app/Flavours/Design/avoid-exceptions)
+- Express new expectation from `UseCase` with a failing test
 - Make it green as fast as possible
 - Refactor: move Exception to Domain
 - Refactor: create a NewWithEither Factory method on Order
 - Refactor: NewWithEither to use the one from OrderItem
 - Refactor: Simplify Order code
 - Clean up: remove all the methods that do not use Either
-- No more exceptions -> only DomainError
+- No more exceptions -> only `DomainError`
 - Use immutable Seq in Order
 
 ## Promyze CLI
